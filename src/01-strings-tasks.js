@@ -175,8 +175,9 @@ function convertToUpperCase(str) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  const array = str.split(';');
+  return array;
 }
 
 /**
@@ -202,8 +203,13 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const horizon = '─'.repeat(width - 2);
+  const space = ' '.repeat(width - 2);
+  const a = `┌${horizon}┐\n`;
+  const b = `│${space}│\n`;
+  const c = `└${horizon}┘\n`;
+  return a + b.repeat(height - 2) + c;
 }
 
 
@@ -223,10 +229,23 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const arr = [];
+  Array.from(str).forEach((letter) => {
+    if (letter.charCodeAt() > 64 && letter.charCodeAt() <= 77) {
+      arr.push(String.fromCharCode(letter.charCodeAt() + 13));
+    } else if (letter.charCodeAt() > 77 && letter.charCodeAt() < 91) {
+      arr.push(String.fromCharCode(letter.charCodeAt() - 13));
+    } else if (letter.charCodeAt() > 96 && letter.charCodeAt() <= 109) {
+      arr.push(String.fromCharCode(letter.charCodeAt() + 13));
+    } else if (letter.charCodeAt() > 109) {
+      arr.push(String.fromCharCode(letter.charCodeAt() - 13));
+    } else {
+      arr.push(String.fromCharCode(letter.charCodeAt()));
+    }
+  });
+  return arr.join('');
 }
-
 /**
  * Returns true if the value is string; otherwise false.
  * @param {string} value
@@ -240,10 +259,14 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  if (value) {
+    if (value.length) {
+      return true;
+    } if (!value.length) { return false; }
+  }
+  return !!value;
 }
-
 
 /**
  * Returns playid card id.
@@ -269,8 +292,18 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let a = 0;
+  const arr = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  arr.forEach((card, index) => {
+    if (value === card) {
+      a = index;
+    }
+  });
+  return a;
 }
 
 
