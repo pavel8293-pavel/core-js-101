@@ -27,10 +27,21 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
-}
+function getFizzBuzz(num) {
+  let a;
+  if (num % 3 !== 0 && num % 5 !== 0) {
+    a = num;
+  } if (num % 5 === 0) {
+    a = 'Buzz';
+  } if (num % 3 === 0) {
+    a = 'Fizz';
+  } if (num % 3 === 0 && num % 5 === 0) {
 
+    a = 'FizzBuzz';
+
+  }
+  return a;
+}
 
 /**
  * Returns the factorial of the specified integer n.
@@ -43,10 +54,9 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  return Array.from({ length: n }, (v, k) => k + 1).reduce((a, b) => a * b);
 }
-
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
