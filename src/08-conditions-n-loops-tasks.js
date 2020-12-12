@@ -36,9 +36,7 @@ function getFizzBuzz(num) {
   } if (num % 3 === 0) {
     a = 'Fizz';
   } if (num % 3 === 0 && num % 5 === 0) {
-
     a = 'FizzBuzz';
-
   }
   return a;
 }
