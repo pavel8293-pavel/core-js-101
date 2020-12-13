@@ -68,8 +68,9 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n, p) {
+  return Array.from({ length: Math.abs(n - (p + 1)) },
+    (v, k = 0) => k + 1).map((x) => x + n - 1).reduce((a, b) => a + b);
 }
 
 
@@ -88,8 +89,8 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  return a < b + c && c < a + b && b < a + c;
 }
 
 
@@ -172,10 +173,11 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const arr = str.split('').sort((c, d) => (c > d ? 1 : -1));
+  const arr2 = arr.filter((el, i, array) => array.indexOf(el) === array.lastIndexOf(el));
+  return arr2[0];
 }
-
 
 /**
  * Returns the string representation of math interval,
@@ -199,10 +201,14 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
-}
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const arr = [];
+  arr.push(a);
+  arr.push(b);
 
+  return `${isStartIncluded ? '[' : '('}${arr.sort((c, d) => c - d).join(', ')}${isEndIncluded ? ']' : ')'}`;
+}
+getIntervalString(0, 1, false, true);
 
 /**
  * Reverse the specified string (put all chars in reverse order)
@@ -216,8 +222,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.toString().split('').reverse().join('');
 }
 
 
@@ -233,8 +239,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return parseFloat(num.toString().split('').reverse().join(''));
 }
 
 
@@ -276,8 +282,19 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  if (num >= 10) {
+    let arr = [];
+    const arr1 = [];
+    let a = 0;
+    arr = num.toString().split('');
+    arr.map((val) => arr1.push(+val));
+    a = arr1.reduce((c, b) => c + b);
+    return getDigitalRoot(a);
+  } if (num < 10) {
+    return num;
+  }
+  return num;
 }
 
 
@@ -302,10 +319,29 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  let bool = false;
+  if (str) {
+    let String = str.split('').join('');
+    if (!String.length) { bool = false; }
+    if (String.length % 2 !== 0) { bool = false; }
+    if (String.length % 2 === 0) {
+      if (String.match(/\(\)/) || String.match(/\{\}/) || String.match(/\[\]/) || String.match(/<>/)) {
+        String = String.replace(/\(\)/g, '');
+        String = String.replace(/\{\}/g, '');
+        String = String.replace(/\[\]/g, '');
+        String = String.replace(/<>/g, '');
+        isBracketsBalanced(String);
+        bool = true;
+      } else {
+        bool = false;
+      }
+    }
+  } else {
+    bool = true;
+  }
+  return bool;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -327,11 +363,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
-
-
 /**
  * Returns the commom directory path for specified array of full filenames.
  *
